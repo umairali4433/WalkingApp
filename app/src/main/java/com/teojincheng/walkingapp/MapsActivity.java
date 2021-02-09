@@ -91,6 +91,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         setTitle(getString(R.string.currentWalk));
@@ -107,10 +108,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
         //add a child node to the db reference
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference rt = database.getReference("user1");
-        exampleRun = rt.push();
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance("https://fitness-a9b01-default-rtdb.firebaseio.com/");
+//        firebaseDatabase.getReference("adasd").child("Umair").setValue("Umair");
 
+//        firebaseDatabase = firebaseDatabase.getReference("user1");
+//        exampleRun = rt.push();
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this /* FragmentActivity */,

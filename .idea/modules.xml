@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/WalkingApp.iml" filepath="$PROJECT_DIR$/WalkingApp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/WalkingApp-app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/WalkingApp-app.iml" group="WalkingApp/app" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/fitness-WalkingApp.iml" filepath="$PROJECT_DIR$/.idea/modules/fitness-WalkingApp.iml" group="WalkingApp" />
     </modules>
   </component>
 </project>
