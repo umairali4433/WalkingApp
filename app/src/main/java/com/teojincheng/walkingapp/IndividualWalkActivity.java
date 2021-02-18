@@ -41,7 +41,6 @@ public class IndividualWalkActivity extends AppCompatActivity {
             }
 
 
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
 

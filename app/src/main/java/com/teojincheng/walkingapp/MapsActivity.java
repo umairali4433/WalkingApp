@@ -19,16 +19,18 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.os.SystemClock;
+import android.os.SystemClock;;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -54,12 +56,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
+public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
 
     private String TAG = "walkingApp";
     private String INTENT_DISTANCEKEY ="distance";
     private  String INTENT_TIMEKEY = "time";
+
 
     // variable for Google Map API
     private GoogleMap mMap;
@@ -107,20 +110,29 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         c = Calendar.getInstance();
 
 
-        //add a child node to the db reference
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance("https://fitness-a9b01-default-rtdb.firebaseio.com/");
+
 //        firebaseDatabase.getReference("adasd").child("Umair").setValue("Umair");
 
-//        firebaseDatabase = firebaseDatabase.getReference("user1");
-//        exampleRun = rt.push();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference rt = database.getReference("user1");
+        exampleRun = rt.push();
+
+//        mGoogleApiClient = new GoogleApiClient.Builder(this)
+//                .enableAutoManage(MapsActivity.this /* FragmentActivity */,
+//                        this /* OnConnectionFailedListener */)
+//                .addConnectionCallbacks(this)
+//                .addApi(LocationServices.API)
+//                .build();
+//        mGoogleApiClient.connect();
+
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this /* FragmentActivity */,
-                        this /* OnConnectionFailedListener */)
-                .addConnectionCallbacks(this)
+                .addConnectionCallbacks((GoogleApiClient.ConnectionCallbacks) this)
+                .addOnConnectionFailedListener((GoogleApiClient.OnConnectionFailedListener) this)
                 .addApi(LocationServices.API)
                 .build();
         mGoogleApiClient.connect();
+
 
         // creates the map leading to the onMapReady function being called
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -150,7 +162,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 long elapsedTime = stopWatchService.getElapsedTime();
 
                 //on the new child node, create these 4 'fields' and insert into the database
-                exampleRun.child("time").setValue(formattedDate);
+                exampleRun.child("time").setValue("time");
                 exampleRun.child("distance").setValue(computedDistance);
                 exampleRun.child("arrOfLatLng").setValue(list);
                 exampleRun.child("duration").setValue(elapsedTime);
@@ -291,9 +303,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
         // Set the map's camera position to the current location of the device.
-        if (mCameraPosition != null) {
-            mMap.moveCamera(CameraUpdateFactory.newCameraPosition(mCameraPosition));
-        } else if (mLastKnownLocation != null) {
+        mMap.moveCamera(CameraUpdateFactory.newCameraPosition(mCameraPosition));
+//        if (mCameraPosition != null) {
+//
+//        }
+        if (mLastKnownLocation != null) {
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
                     new LatLng(mLastKnownLocation.getLatitude(),
                             mLastKnownLocation.getLongitude()), DEFAULT_ZOOM));
@@ -302,6 +316,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mMap.getUiSettings().setMyLocationButtonEnabled(false);
         }
     }
+
+
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
@@ -367,7 +384,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
         return totalDistance;
-
     }
 
 
@@ -405,8 +421,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             .addAll(tList)
                             .width(5)
                             .color(Color.RED));
-
-
                 }
 
                 @Override

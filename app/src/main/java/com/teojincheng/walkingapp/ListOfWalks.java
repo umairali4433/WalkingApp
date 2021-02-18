@@ -61,7 +61,6 @@ public class ListOfWalks extends AppCompatActivity {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference rt = database.getReference("user1");
 
-
         rt.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
